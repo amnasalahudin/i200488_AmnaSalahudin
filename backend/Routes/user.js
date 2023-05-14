@@ -5,7 +5,7 @@ const {
     registerUser,
     loginUser,
     editUser,
-    getAllUsers,
+    getAllSellers,
   } = require('../Controller/user');
 
 const authMiddleware = require('../Middleware/Auth');
@@ -20,7 +20,7 @@ router.post('/login', loginUser);
 router.patch('/edit/:userId', authMiddleware, editUser);
 
 // Get all users
-router.get('/', getAllUsers);
+router.get('/', getAllSellers);
 
 module.exports = router;
   

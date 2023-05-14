@@ -91,9 +91,9 @@ const editUser = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req, res) => {
+const getAllSellers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find({ role: 'seller' });
     res.send(users);
   } catch (e) {
     res.status(500).send(e);
@@ -104,5 +104,5 @@ module.exports = {
   registerUser,
   loginUser,
   editUser,
-  getAllUsers,
+  getAllSellers,
 };

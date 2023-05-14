@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const userRoutes = require("./Routes/user");
+const brandRoutes = require("./Routes/brand");
 
 app.use(bodyParser.json());
 require('dotenv').config();
@@ -24,6 +25,7 @@ mongoose
 
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/user", userRoutes);
+app.use("/api/brand", brandRoutes);
 
 
 app.listen(3000, () => {
