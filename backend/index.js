@@ -8,6 +8,7 @@ const cors = require("cors");
 const userRoutes = require("./Routes/user");
 const brandRoutes = require("./Routes/brand"); //import routes
 const productRoutes = require("./Routes/product");
+const orderRoutes = require('./Routes/order');
 
 app.use(bodyParser.json());
 require('dotenv').config();
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/user", userRoutes);
 app.use("/api/brand", brandRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/order", orderRoutes);
 
 app.listen(3000, () => {
   console.log("Server started on port 3000");
