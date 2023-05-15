@@ -5,10 +5,9 @@ const Product = require('../Models/product');
 const Brand = require('../Models/brand');
 
 
-
-
 const orderController = {
 
+  //create an order for a product
     async create(req, res) {
         try {
           const order = new Order({
@@ -22,6 +21,8 @@ const orderController = {
           res.status(500).send({ error: 'Error creating order.' });
         }
       },
+
+  //view all orders
   async getAll(req, res) {
     try {
       const orders = await Order.find({});
@@ -31,6 +32,7 @@ const orderController = {
     }
   },
 
+  //update an order
   async update(req, res) {
     try {
       const orderId = req.params.orderId;
@@ -68,6 +70,7 @@ const orderController = {
     }
   },
 
+  //delete an order
   async delete(req, res) {
     try {
       const orderId = req.params.orderId;

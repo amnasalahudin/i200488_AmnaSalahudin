@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../Models/User');
+const User = require('../Models/user');
 
 // Middleware for authentication
 const authMiddleware = async (req, res, next) => {
