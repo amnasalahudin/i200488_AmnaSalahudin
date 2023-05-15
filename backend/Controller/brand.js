@@ -2,7 +2,10 @@
 
 const Brand = require('../Models/brand');
 
+
 const brandController = {
+
+    //create a brand for a seller
   async create(req, res) {
     try {
       const { name, logo, description, contact } = req.body;
@@ -23,6 +26,7 @@ const brandController = {
     }
   },
 
+  //edit a brand
   async update(req, res) {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['name', 'logo', 'description', 'contact'];
@@ -33,6 +37,10 @@ const brandController = {
     }
 
     try {
+
+      // getting the seller id from the token
+      // getting the brand id from the params
+      
       const brandId = req.params.id;
       const sellerId = req.user._id;
       const brand = await Brand.findOne({ _id: brandId, seller: sellerId });
@@ -50,8 +58,11 @@ const brandController = {
     }
   },
 
+  //view all brands of a seller
   async getAllBySeller(req, res) {
     try {
+
+      // getting the seller id from the token
       const sellerId = req.user._id;
       const brands = await Brand.find({ seller: sellerId });
 
@@ -65,6 +76,7 @@ const brandController = {
     }
   },
 
+  //delete a brand
   async delete(req, res) {
     try {
       const brandId = req.params.id;
@@ -78,6 +90,33 @@ const brandController = {
       res.status(200).send(brand);
     } catch (error) {
       res.status(500).send({ error: 'Error deleting brand.' });
+    }
+  },
+
+  //view all brands
+  async getAll(req, res) {
+    try {
+      const brands = await Brand.find({});
+
+      res.status(200).send(brands);
+    } catch (error) {
+      res.status(500).send({ error: 'Error fetching brands.' });
+    }
+  },
+
+  //view a brand by id
+  async getById(req, res) {
+    try {
+      const brandId = req.params.id;
+      const brand = await Brand.findById(brandId);
+
+      if (!brand) {
+        return res.status(404).send({ error: 'Brand not found.' });
+      }
+
+      res.status(200).send(brand);
+    } catch (error) {
+      res.status(500).send({ error: 'Error fetching brand.' });
     }
   },
 };

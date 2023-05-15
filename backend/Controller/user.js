@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 
+//controller for user registration
 const registerUser = async (req, res) => {
   try {
     const {name, email, password, role } = req.body;
@@ -13,6 +14,7 @@ const registerUser = async (req, res) => {
         .send({ error: "User with this email already exists" });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 8);
     const user = new User({
       name,
@@ -28,6 +30,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+//controller for user login
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -43,7 +46,7 @@ const loginUser = async (req, res) => {
       return res.status(401).send({ error: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ _id: user._id }, "secret");
+    const token = jwt.sign({ _id: user._id }, "secret"); //create token
 
     console.log(token);
     res.send({ user, token });
@@ -52,6 +55,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+//controller for user profile edit
 const editUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -91,6 +95,7 @@ const editUser = async (req, res) => {
   }
 };
 
+//controller for getting all sellers
 const getAllSellers = async (req, res) => {
   try {
     const users = await User.find({ role: 'seller' });
@@ -99,6 +104,7 @@ const getAllSellers = async (req, res) => {
     res.status(500).send(e);
   }
 };
+
 
 module.exports = {
   registerUser,

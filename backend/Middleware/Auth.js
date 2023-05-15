@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 
+// Middleware for authentication
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, "secret");
+    const token = req.header('Authorization').replace('Bearer ', ''); //get token from header
+    const decoded = jwt.verify(token, "secret"); //verify token
 
-    const user = await User.findOne({ _id: decoded._id });
+    const user = await User.findOne({ _id: decoded._id }); //find user by id
 
     if (!user) {
       throw new Error();
