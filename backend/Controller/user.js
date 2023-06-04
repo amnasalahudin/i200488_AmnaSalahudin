@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
       return res.status(401).send({ error: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ _id: user._id }, "secret"); //create token
+    const token = jwt.sign({ _id: user._id ,name: user.name, email: user.email, role: user.role }, "secret"); //create token
 
     console.log(token);
     res.send({ user, token });

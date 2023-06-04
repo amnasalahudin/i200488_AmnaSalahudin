@@ -31,6 +31,6 @@ app.use("/api/brand", brandRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log("Server started on port 3000");
 });
