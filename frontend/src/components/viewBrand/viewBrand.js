@@ -16,8 +16,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function ViewBrand() {
+
+  const navigate = useNavigate();
+
   const [brands, setBrands] = useState([]);
   const [updatedPostId, setUpdatedPostId] = useState(null);
   const [updatedPost, setUpdatedPost] = useState({
@@ -60,6 +64,12 @@ function ViewBrand() {
       width: '50px',
     },
 
+    bannerImage: {
+      width: '100%',
+      height: '400px',
+      objectFit: 'cover'
+  },
+
     cardRow: {
         height: '80px', // Adjust this value
       },
@@ -70,9 +80,14 @@ function ViewBrand() {
         height: '120px', // Adjust this value
       },
       cardButtons: {
-        height: '150px', // Adjust this value
+        height: '220px', // Adjust this value
       }
   }
+
+  const addProduct = (brandId) => {
+    // Navigate to add product page with brand id
+    navigate(`/brands/${brandId}/add-product`);
+  };
 
   const updatePost = (id, name, logo, description, contact) => {
     setUpdatedPostId(id);
@@ -134,6 +149,11 @@ function ViewBrand() {
     }
   };
   
+  const viewProducts = (brandId) => {
+    // Navigate to view products page with brand id
+    navigate(`/brands/${brandId}/products`);
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -191,7 +211,7 @@ function ViewBrand() {
         <br></br>
         
 
-        <img src={img95} alt="Logo" className='img95'  style={{border: 'none', borderStyle: 'none', borderWidth: 0}}/>
+        <img src={img95} alt="Banner" style={styles.bannerImage} />
 
         
       
@@ -200,7 +220,7 @@ function ViewBrand() {
 
      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Update Product</Modal.Title>
+          <Modal.Title>Update Brand</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         
@@ -268,8 +288,10 @@ function ViewBrand() {
            <Card.Body className="mt-auto" style={styles.cardButtons}>
              <div className="d-grid gap-2">
              <Button variant="outline-info"  onClick={() => updatePost(brand._id, brand.name, brand.logo, brand.description, brand.contact)}>Update</Button>
-             <Button variant="outline-success"  >Add Product</Button>
+             <Button variant="outline-success"  onClick={() => addProduct(brand._id)}>Add Product</Button>
+             <Button variant="outline-dark" onClick={() => viewProducts(brand._id)}>View Products</Button>
              <Button variant="outline-danger"  onClick={() => deleteBrand(brand._id)}>Delete</Button>
+           
              </div>
            </Card.Body>
          </Card>

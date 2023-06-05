@@ -6,6 +6,8 @@ import Homepage from './components/homepage/homepage';
 import EditProfile from './components/editProfile/editProfile';
 import CreateBrand from './components/createBrand/createBrand';
 import ViewBrand from './components/viewBrand/viewBrand';
+import AddProduct from './components/addProduct/addProduct';
+import ViewProduct from './components/viewProduct/viewProduct';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/create-brand" element={<CreateBrand />} />
         <Route path="/view-brand" element={<ViewBrand />} />
+        <Route path="brands/:brandId/add-product" element={<AddProduct />} />
+        <Route path="/brands/:brandId/products" element={<ViewProduct />} />
       </Routes>
     </Router>
   );
