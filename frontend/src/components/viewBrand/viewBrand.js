@@ -19,6 +19,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 function ViewBrand() {
   const [brands, setBrands] = useState([]);
+  const [updatedPostId, setUpdatedPostId] = useState(null);
   const [updatedPost, setUpdatedPost] = useState({
     name: "",
     logo: "",
@@ -69,11 +70,12 @@ function ViewBrand() {
         height: '120px', // Adjust this value
       },
       cardButtons: {
-        height: '130px', // Adjust this value
+        height: '150px', // Adjust this value
       }
   }
 
-  const updatePost = (name,logo,description,contact) => {
+  const updatePost = (id, name, logo, description, contact) => {
+    setUpdatedPostId(id);
     setUpdatedPost((prev) => {
       return {
         ...prev,
@@ -81,11 +83,57 @@ function ViewBrand() {
         logo: logo,
         description: description,
         contact: contact
-        
       };
     });
     handleShow();
   };
+
+  const deleteBrand = async (id) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const options = {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+      try {
+        await axios.delete(`http://localhost:3001/api/brand/deleteBrand/${id}`, options);
+        // refresh brands list
+        const response = await axios.get('http://localhost:3001/api/brand/viewbrand', options);
+        setBrands(response.data);
+      } catch (error) {
+        console.error('Error while deleting brand: ', error);
+      }
+    } else {
+      alert('Please authenticate.');
+    }
+  };
+  
+  
+  const saveUpdatedPost = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const options = {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+      try {
+        await axios.patch(`http://localhost:3001/api/brand/editBrand/${updatedPostId}`, updatedPost, options);
+        handleClose();
+        // refresh brands list
+        const response = await axios.get('http://localhost:3001/api/brand/viewbrand', options);
+        setBrands(response.data);
+      } catch (error) {
+        console.error('Error while updating brand: ', error);
+      }
+    } else {
+      alert('Please authenticate.');
+    }
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,6 +144,8 @@ function ViewBrand() {
       };
     });
   };
+
+  
 
   return (
 
@@ -147,6 +197,54 @@ function ViewBrand() {
       
       
      <Main>
+
+     <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        
+        <Form.Control
+            placeholder="Name"
+            name="name"
+            value={updatedPost.name ? updatedPost.name : ""}
+            style={{ marginBottom: "1rem" }}
+            onChange={handleChange}
+          />
+
+        <Form.Control
+            placeholder="Logo"
+            name="logo"
+            value={updatedPost.logo? updatedPost.logo : ""}
+            style={{ marginBottom: "1rem" }}
+            onChange={handleChange}
+          />
+           <Form.Control
+            placeholder="Description"
+            name="description"
+            value={updatedPost.description? updatedPost.description : ""}
+            style={{ marginBottom: "1rem" }}
+            onChange={handleChange}
+          />
+
+            <Form.Control
+            placeholder="Contact"
+            name="contact"
+            value={updatedPost.contact? updatedPost.contact : ""}
+            style={{ marginBottom: "1rem" }}
+            onChange={handleChange}
+          />
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={saveUpdatedPost}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
           {brands.map((brand) => (
            <Card key={brand._id} className="h-100 d-flex flex-column" style={{ width: '18rem' }}>
            <Card.Body style={styles.cardRow}>
@@ -169,8 +267,9 @@ function ViewBrand() {
            </ListGroup>
            <Card.Body className="mt-auto" style={styles.cardButtons}>
              <div className="d-grid gap-2">
-               <Button variant="outline-info" size="lg">Update</Button>
-               <Button variant="outline-danger" size="lg">Delete</Button>
+             <Button variant="outline-info"  onClick={() => updatePost(brand._id, brand.name, brand.logo, brand.description, brand.contact)}>Update</Button>
+             <Button variant="outline-success"  >Add Product</Button>
+             <Button variant="outline-danger"  onClick={() => deleteBrand(brand._id)}>Delete</Button>
              </div>
            </Card.Body>
          </Card>
