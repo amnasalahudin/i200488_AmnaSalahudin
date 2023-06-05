@@ -55,7 +55,9 @@ const loginUser = async (req, res) => {
   }
 };
 
-//controller for user profile edit
+// your JWT secret
+const JWT_SECRET = "secret";
+
 const editUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -87,13 +89,25 @@ const editUser = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ message: "User profile updated successfully" });
+    // Generate new JWT token
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+      JWT_SECRET
+    );
+
+    res.status(200).json({ message: "User profile updated successfully", token });
     console.log("success");
   } catch (e) {
     res.status(500).send(e);
     console.log(e);
   }
 };
+
 
 //controller for getting all sellers
 const getAllSellers = async (req, res) => {

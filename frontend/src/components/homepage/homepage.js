@@ -16,17 +16,23 @@ function Homepage() {
       const decodedToken = jwt_decode(token);
       setUser(decodedToken);
     }
-  }, []);
+  }, [navigate]);
+
+  
 
   const signOut = () => {
     localStorage.clear();
     navigate("/login");
   };
 
+  const goToEditProfile = () => {
+    navigate("/edit-profile");
+  };
+
   return (
     <div className="container-fluid">
       <div className="row no-gutter">
-        <div className="col-md-6 d-none d-md-flex bg-image"></div>
+        <div className="col-md-6 d-none d-md-flex bg-image3"></div>
         <div className="col-md-6 bg-light">
           <div className="login d-flex align-items-center py-5">
             <div className="container">
@@ -42,12 +48,21 @@ function Homepage() {
                   <div>
                     {user && (
                       <div>
-                        <h1>Welcome, {user.name}!</h1>
+                        <p><b>Welcome, {user.name}!</b></p>
                         <p>Email: {user.email}</p>
                         <p>Role: {user.role}</p>
                       </div>
                     )}
-                    <button type="button" className="btn btn-dark" onClick={signOut}>
+                    <button type="button" className="btn btn-outline-dark btn-block" onClick={goToEditProfile} >
+                     Edit Profile
+                    </button>
+                    <button type="button" className="btn btn-outline-dark btn-block"  >
+                     Create Brand
+                    </button>
+                    <button type="button" className="btn btn-outline-dark btn-block"  >
+                     View Brands
+                    </button>
+                    <button type="button" className="btn btn-dark btn-block" onClick={signOut}>
                       Sign Out
                     </button>
                   </div>
