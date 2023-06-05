@@ -14,7 +14,6 @@ import img95 from './img95.jpg'
 import logo from './logo.png'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +21,7 @@ function ViewBrand() {
 
   const navigate = useNavigate();
 
+  const [searchTerm, setSearchTerm] = useState('');
   const [brands, setBrands] = useState([]);
   const [updatedPostId, setUpdatedPostId] = useState(null);
   const [updatedPost, setUpdatedPost] = useState({
@@ -57,6 +57,9 @@ function ViewBrand() {
     fetchBrands();
   }, []);
 
+  const filteredBrands = brands.filter((brand) => 
+  brand.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
   const styles = {
     cardImage: {
       objectFit: 'cover',
@@ -213,7 +216,17 @@ function ViewBrand() {
 
         <img src={img95} alt="Banner" style={styles.bannerImage} />
 
-        
+        <br></br>
+        <br></br>
+
+        <Form.Control
+    type="search"
+    style={{ width: '25%',  margin: 'auto', marginBottom: '1rem' }}
+    size="lg"
+    placeholder="Search for a brand..."
+    onChange={(e) => setSearchTerm(e.target.value)
+    }
+  />
       
       
      <Main>
@@ -265,7 +278,7 @@ function ViewBrand() {
           </Button>
         </Modal.Footer>
       </Modal>
-          {brands.map((brand) => (
+          {filteredBrands.map((brand) => (
            <Card key={brand._id} className="h-100 d-flex flex-column" style={{ width: '18rem' }}>
            <Card.Body style={styles.cardRow}>
              <Row>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -8,13 +7,10 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import styled from "styled-components";
 import "./viewProduct.css";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import img96 from "./img96.jpg";
 import logo from "./logo.png";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { LinkContainer } from "react-router-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,6 +18,7 @@ function ViewProduct() {
   const navigate = useNavigate();
   const { brandId } = useParams();
 
+  const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [show, setShow] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState({
@@ -30,7 +27,15 @@ function ViewProduct() {
     price: "",
     imageUrl: "",
   });
+
   const [updatedProductId, setUpdatedProductId] = useState(null);
+  // Create a filtered list of products
+  const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  const handleSearchChange = (event) => {  // New handler for the search input
+    setSearchTerm(event.target.value);
+  }
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -69,6 +74,28 @@ function ViewProduct() {
 
     fetchProducts();
   }, [brandId]);
+
+  const deleteProduct = async (productId) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const options = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      try {
+        await axios.delete(`http://localhost:3001/api/product/delete/${productId}`, options);
+        // refresh products list
+        const response = await axios.get(
+          `http://localhost:3001/api/product/brands/${brandId}/products`,
+          options
+        );
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error while deleting product: ", error);
+      }
+    } else {
+      alert("Please authenticate.");
+    }
+  };
 
   const saveUpdatedProduct = async () => {
     const token = localStorage.getItem("token");
@@ -164,6 +191,20 @@ function ViewProduct() {
 
       <img src={img96} alt="Banner" style={styles.bannerImage} />
 
+      <br></br>
+      <br></br>
+      
+      <Form.Control
+  type="search"
+  placeholder="Search for a product ..."
+  value={searchTerm}
+  size="lg"
+  onChange={handleSearchChange}
+  style={{ width: '25%',  margin: 'auto', marginBottom: '1rem' }} // Added styles
+/>
+
+
+
       <Main>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -210,7 +251,7 @@ function ViewProduct() {
           </Button>
         </Modal.Footer>
       </Modal>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <Card key={product._id} style={{ width: "18rem" }}>
             <Card.Img
               variant="top"
@@ -235,7 +276,7 @@ function ViewProduct() {
             <Card.Body>
               <div className="d-grid gap-2">
                 <Button variant="outline-info" onClick={() => updateProduct(product._id, product.name, product.description, product.price, product.imageUrl)}>Update</Button>
-                <Button variant="outline-danger">Delete</Button>
+                <Button variant="outline-danger" onClick={() => deleteProduct(product._id)}>Delete</Button>
               </div>
             </Card.Body>
           </Card>
