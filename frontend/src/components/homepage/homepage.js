@@ -56,10 +56,10 @@ function Homepage() {
                     <button type="button" className="btn btn-outline-dark btn-block" onClick={goToEditProfile} >
                      Edit Profile
                     </button>
-                    <button type="button" className="btn btn-outline-dark btn-block"  >
+                    <button type="button" className="btn btn-outline-dark btn-block"  onClick={() => navigate("/create-brand")} >
                      Create Brand
                     </button>
-                    <button type="button" className="btn btn-outline-dark btn-block"  >
+                    <button type="button" className="btn btn-outline-dark btn-block" onClick={() => navigate("/view-brand")} >
                      View Brands
                     </button>
                     <button type="button" className="btn btn-dark btn-block" onClick={signOut}>
