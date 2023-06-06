@@ -83,6 +83,7 @@ function ViewProduct() {
       };
       try {
         await axios.delete(`http://localhost:3001/api/product/delete/${productId}`, options);
+        alert("Product deleted successfully.");
         // refresh products list
         const response = await axios.get(
           `http://localhost:3001/api/product/brands/${brandId}/products`,
@@ -116,6 +117,7 @@ function ViewProduct() {
           updatedProduct,
           options
         );
+        alert("Product updated successfully.");
         handleClose();
         // refresh products list
         const response = await axios.get(
@@ -152,6 +154,24 @@ function ViewProduct() {
       height: "400px",
       objectFit: "cover",
     },
+    cardRow: {
+      height: '80px', 
+    },
+    cardListGroup: {
+      height: '100px', 
+    },
+    cardListGroup1: {
+      height: '80px', 
+    },
+    cardListGroup2: {
+      height: '50px', 
+    },
+    cardListGroup3: {
+      height: '80px', 
+    },
+    cardButtons: {
+      height: '80px', 
+    }
   };
 
   return (
@@ -177,6 +197,9 @@ function ViewProduct() {
             </LinkContainer>
             <LinkContainer to="/create-brand">
               <Nav.Link>Create Brand</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/view-orders">
+              <Nav.Link>Orders</Nav.Link>
             </LinkContainer>
             <LinkContainer onClick={signOut} to="/login">
               <Nav.Link>Sign out</Nav.Link>
@@ -257,13 +280,14 @@ function ViewProduct() {
         </Modal.Footer>
       </Modal>
         {filteredProducts.map((product) => (
-          <Card key={product._id} style={{ width: "18rem" }}>
+          <Card key={product._id} className="h-100 d-flex flex-column" style={{ width: "18rem" }}>
             <Card.Img
               variant="top"
               src={product.imageUrl}
               style={styles.cardImage}
+
             />
-            <Card.Body>
+            <Card.Body style={styles.cardListGroup3}>
               <b>
                 {" "}
                 <Card.Title>{product.name}</Card.Title>
@@ -279,7 +303,7 @@ function ViewProduct() {
               </ListGroup.Item>
             </ListGroup>
             <Card.Body>
-              <div className="d-grid gap-2">
+              <div className="d-grid gap-2" style={styles.cardButtons}>
                 <Button variant="outline-info" onClick={() => updateProduct(product._id, product.name, product.description, product.price, product.imageUrl)}>Update</Button>
                 <Button variant="outline-danger" onClick={() => deleteProduct(product._id)}>Delete</Button>
               </div>

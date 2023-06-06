@@ -9,6 +9,7 @@ const userRoutes = require("./Routes/user");
 const brandRoutes = require("./Routes/brand"); //import routes
 const productRoutes = require("./Routes/product");
 const orderRoutes = require('./Routes/order');
+const twilioRoutes = require('./Routes/twilio');
 
 app.use(bodyParser.json());
 require('dotenv').config();
@@ -30,6 +31,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/brand", brandRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/twilio", twilioRoutes);
+
 
 app.listen(3001, () => {
   console.log("Server started on port 3000");

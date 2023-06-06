@@ -122,6 +122,7 @@ function ViewBrand() {
       };
       try {
         await axios.delete(`http://localhost:3001/api/brand/deleteBrand/${id}`, options);
+        alert('Brand has been deleted.'); 
         // refresh brands list
         const response = await axios.get('http://localhost:3001/api/brand/viewbrand', options);
         setBrands(response.data);
@@ -145,6 +146,7 @@ function ViewBrand() {
       };
       try {
         await axios.patch(`http://localhost:3001/api/brand/editBrand/${updatedPostId}`, updatedPost, options);
+        alert('Brand has been Updated!'); 
         handleClose();
         // refresh brands list
         const response = await axios.get('http://localhost:3001/api/brand/viewbrand', options);
@@ -202,6 +204,9 @@ function ViewBrand() {
       <LinkContainer to="/create-brand">
         <Nav.Link>Create Brand</Nav.Link>
       </LinkContainer>
+      <LinkContainer to="/view-orders">
+              <Nav.Link>Orders</Nav.Link>
+            </LinkContainer>
       <LinkContainer onClick={signOut} to="/login">
         <Nav.Link>Sign out</Nav.Link>
       </LinkContainer>
