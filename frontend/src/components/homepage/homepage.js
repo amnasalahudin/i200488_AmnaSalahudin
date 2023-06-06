@@ -29,6 +29,8 @@ function Homepage() {
     navigate("/edit-profile");
   };
 
+  
+
   return (
     <div className="container-fluid">
       <div className="row no-gutter">
@@ -61,6 +63,9 @@ function Homepage() {
                     </button>
                     <button type="button" className="btn btn-outline-dark btn-block" onClick={() => navigate("/view-brand")} >
                      View Brands
+                    </button>
+                    <button type="button" className="btn btn-outline-dark btn-block" onClick={() => navigate("/view-orders")} >
+                     View Orders
                     </button>
                     <button type="button" className="btn btn-dark btn-block" onClick={signOut}>
                       Sign Out

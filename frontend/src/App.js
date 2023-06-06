@@ -8,6 +8,7 @@ import CreateBrand from './components/createBrand/createBrand';
 import ViewBrand from './components/viewBrand/viewBrand';
 import AddProduct from './components/addProduct/addProduct';
 import ViewProduct from './components/viewProduct/viewProduct';
+import ViewOrder from './components/viewOrder/viewOrder';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/view-brand" element={<ViewBrand />} />
         <Route path="brands/:brandId/add-product" element={<AddProduct />} />
         <Route path="/brands/:brandId/products" element={<ViewProduct />} />
+        <Route path="/view-orders" element={<ViewOrder />} />
       </Routes>
     </Router>
   );

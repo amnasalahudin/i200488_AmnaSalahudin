@@ -97,6 +97,10 @@ function ViewProduct() {
     }
   };
 
+  const signOut = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
   const saveUpdatedProduct = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -174,9 +178,10 @@ function ViewProduct() {
             <LinkContainer to="/create-brand">
               <Nav.Link>Create Brand</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/logout">
+            <LinkContainer onClick={signOut} to="/login">
               <Nav.Link>Sign out</Nav.Link>
             </LinkContainer>
+
           </Nav>
         </Navbar.Collapse>
       </Navbar>

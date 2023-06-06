@@ -32,6 +32,43 @@ const orderController = {
     }
   },
 
+  // get all orders for a specific seller
+async getBySeller(req, res) {
+  try {
+    const sellerId = req.user._id;
+    const brands = await Brand.find({ seller: sellerId });
+
+    if (!brands || brands.length === 0) {
+      return res.status(404).send({ error: 'No brands found for this seller.' });
+    }
+
+    const brandIds = brands.map((brand) => brand._id);
+
+    const products = await Product.find({
+      brand: { $in: brandIds },
+    });
+
+    if (!products || products.length === 0) {
+      return res.status(404).send({ error: 'No products found for this seller.' });
+    }
+
+    const productIds = products.map((product) => product._id);
+
+    const orders = await Order.find({
+      product: { $in: productIds },
+    });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).send({ error: 'No orders found for this seller.' });
+    }
+
+    res.status(200).send(orders);
+  } catch (error) {
+    res.status(500).send({ error: 'Error getting orders.' });
+  }
+},
+
+
   //update an order
   async update(req, res) {
     try {
