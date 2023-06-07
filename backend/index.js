@@ -33,7 +33,8 @@ app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/twilio", twilioRoutes);
 
+const port = process.env.PORT || 3001;
 
-app.listen(3001, () => {
-  console.log("Server started on port 3000");
+app.listen(port, () => {
+  console.log("Server started on port 3001");
 });
