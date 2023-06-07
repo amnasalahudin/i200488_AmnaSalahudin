@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const path = require('path');
 
 
 const app = express();
@@ -34,6 +35,12 @@ app.use("/api/order", orderRoutes);
 app.use("/api/twilio", twilioRoutes);
 
 const port = process.env.PORT || 3001;
+
+app.use(express.static(path.join(__dirname, "./frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./frontend/build/index.html"));
+});
 
 app.listen(port, () => {
   console.log("Server started on port 3001");
