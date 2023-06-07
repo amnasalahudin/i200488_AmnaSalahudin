@@ -17,17 +17,34 @@ function Login() {
   const login = async () => {
     const { email, password } = user;
     if (email && password) {
-      try {
-        const response = await axios.post("http://localhost:3001/api/user/login", user);
-        localStorage.setItem("token", response.data.token);
-        navigate("/");
-      } catch (error) {
-        console.error("Error while logging in: ", error);
-      }
+      axios
+        .post("http://localhost:3001/api/user/login", user)
+        .then((res) => {
+            localStorage.setItem("token", res.data.token);
+            navigate("/");
+        })
+        .catch((err) => {
+      
+          if (err.response) {
+            // The request was made and the server responded with a status code
+          
+            console.log(err.response.data);
+            console.log(err.response.status);
+            console.log(err.response.headers);
+            alert(err.response.data.error);
+          } else if (err.request) {
+            // The request was made but no response was received
+            console.log(err.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err.message);
+          }
+        });
     } else {
       alert("Please enter email and password!");
     }
-  };
+};
+
 
   return (
     <div className="container-fluid">

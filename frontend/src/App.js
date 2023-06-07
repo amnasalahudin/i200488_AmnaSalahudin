@@ -9,7 +9,7 @@ import ViewBrand from './components/viewBrand/viewBrand';
 import AddProduct from './components/addProduct/addProduct';
 import ViewProduct from './components/viewProduct/viewProduct';
 import ViewOrder from './components/viewOrder/viewOrder';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 function App() {
   return (
@@ -24,8 +24,21 @@ function App() {
         <Route path="brands/:brandId/add-product" element={<AddProduct />} />
         <Route path="/brands/:brandId/products" element={<ViewProduct />} />
         <Route path="/view-orders" element={<ViewOrder />} />
+        <Route path="*" element={<NoMatch />} />
       </Routes>
     </Router>
+  );
+}
+
+function NoMatch() {
+  let location = useLocation();
+
+  return (
+    <div>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
+    </div>
   );
 }
 

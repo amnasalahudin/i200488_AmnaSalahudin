@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/i200488_AmnaSalahudin/static/css/main.b07170cb.css",
-    "main.js": "/i200488_AmnaSalahudin/static/js/main.ce397f9a.js",
+    "main.js": "/i200488_AmnaSalahudin/static/js/main.7e1270df.js",
     "static/js/787.cda612ba.chunk.js": "/i200488_AmnaSalahudin/static/js/787.cda612ba.chunk.js",
     "static/media/Project_74-13.jpg": "/i200488_AmnaSalahudin/static/media/Project_74-13.7842cbe128c1066bd421.jpg",
     "static/media/2001.i039.031_branding_isometric_concept_icons-14.jpg": "/i200488_AmnaSalahudin/static/media/2001.i039.031_branding_isometric_concept_icons-14.b68e59f04af712db1bec.jpg",
@@ -23,11 +23,11 @@
     "static/media/fa-v4compatibility.woff2": "/i200488_AmnaSalahudin/static/media/fa-v4compatibility.68577e40f3e70067b5da.woff2",
     "index.html": "/i200488_AmnaSalahudin/index.html",
     "main.b07170cb.css.map": "/i200488_AmnaSalahudin/static/css/main.b07170cb.css.map",
-    "main.ce397f9a.js.map": "/i200488_AmnaSalahudin/static/js/main.ce397f9a.js.map",
+    "main.7e1270df.js.map": "/i200488_AmnaSalahudin/static/js/main.7e1270df.js.map",
     "787.cda612ba.chunk.js.map": "/i200488_AmnaSalahudin/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b07170cb.css",
-    "static/js/main.ce397f9a.js"
+    "static/js/main.7e1270df.js"
   ]
 }
